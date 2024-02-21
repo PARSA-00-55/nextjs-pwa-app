@@ -5,58 +5,66 @@ import Link from "next/link";
 
 export default function Home() {
   // * =============== Notification access request func ================== * //
-  const requestNotificationPermission = () => {
-    if ("Notification" in window) {
-      Notification.requestPermission().then((status) => {
-        console.log("Notification permission status:", status);
+  // const requestNotificationPermission = () => {
+  //   if ("Notification" in window) {
+  //     Notification.requestPermission().then((status) => {
+  //       console.log("Notification permission status:", status);
 
-        if (status === "denied") {
-          Notification.requestPermission().then((status) => {});
-          alert(
-            "Notification access denied. Please grant the notification permission"
-          );
-        } else if (status === "granted") {
-          showNotification();
-          console.log("Notification access granted!");
-        }
-      });
-    } else {
-      console.log("Notifications not supported in this environment");
-    }
-  };
+  //       if (status === "denied") {
+  //         Notification.requestPermission().then((status) => {});
+  //         alert(
+  //           "Notification access denied. Please grant the notification permission"
+  //         );
+  //       } else if (status === "granted") {
+  //         showNotification();
+  //         console.log("Notification access granted!");
+  //       }
+  //     });
+  //   } else {
+  //     console.log("Notifications not supported in this environment");
+  //   }
+  // };
 
-  const showNotification = () => {
-    const notificationOptions = {
-      body: "This is the body of the notification",
-      icon: "/path/to/icon.png", // Replace with the path to your notification icon
-    };
+  // const showNotification = () => {
+  //   const notificationOptions = {
+  //     body: "This is the body of the notification",
+  //     icon: "/path/to/icon.png", // Replace with the path to your notification icon
+  //   };
 
-    const notification = new Notification(
-      "Notification Title",
-      notificationOptions
-    );
+  //   const notification = new Notification(
+  //     "Notification Title",
+  //     notificationOptions
+  //   );
 
-    navigator.serviceWorker.getRegistration().then((reg) => {
-      reg?.showNotification("Hello, World!", {
-        body: "This is the body of the notification",
-        data: { primaryKey: 1 },
-      });
-    });
+  //   navigator.serviceWorker.getRegistration().then((reg) => {
+  //     reg?.showNotification("Hello, World!", {
+  //       body: "This is the body of the notification",
+  //       data: { primaryKey: 1 },
+  //     });
+  //   });
 
-    notification.onclick = () => {
-      console.log("Notification clicked");
-      // Handle notification click event if needed
-    };
-  };
+  //   notification.onclick = () => {
+  //     console.log("Notification clicked");
+  //     // Handle notification click event if needed
+  //   };
+  // };
 
+  // // useEffect(() => {
+  // //   showNotification();
+  // // }, []);
   // useEffect(() => {
-  //   showNotification();
+  //   if (Notification.permission === "granted") {
+  //     showNotification();
+  //   }
   // }, []);
-  useEffect(() => {
-    if (Notification.permission === "granted") {
-      showNotification();
-    }
-  }, []);
+
+  const handleNotificationClick = () => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        new Notification("hello pips");
+      }
+    });
+  };
 
   // * =============== Location access request func ================== * //
   const [currentLocation, setCurrentLocation] = useState<string | null>(null);
@@ -91,17 +99,17 @@ export default function Home() {
       )}
 
       <div>
-        <button
+        {/* <button
           className="text-sky-500 hover:text-sky-600"
           onClick={requestNotificationPermission}
         >
           Request for notification &rarr;
-        </button>
+        </button> */}
         <br />
         <br />
         <button
           className="text-sky-500 hover:text-sky-600"
-          onClick={showNotification}
+          onClick={handleNotificationClick}
         >
           Push for notification &rarr;
         </button>
