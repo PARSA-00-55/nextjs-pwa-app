@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navbar />
         <main className="container mx-auto">
-          {children} <SpeedInsights />
+          {children} <SpeedInsights /> <Analytics />
         </main>
       </body>
     </html>
